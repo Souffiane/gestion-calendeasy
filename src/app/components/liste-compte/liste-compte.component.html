@@ -1,33 +1,24 @@
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-      <div class="navbar-collapse">
-        <ul class="nav navbar-nav">
-          <li><a href="#">Déconnexion</a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-  <div class="container">
-    <div class="row">
-      <div class="col-xs-12">
-        <table class="table table-striped">
-            <thead>
-              <tr>
-                <th scope="col">Code</th>
-                <th scope="col">Nom</th>
-                <th scope="col">Type Abonnement</th>
-                <th scope="col">Créé le</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let cpt of comptes">
-                  <td>{{cpt.codeClient}}</td>
-                  <td>{{cpt.nom}}</td>
-                  <td>{{cpt.typeAbo}}</td>
-                  <td>{{cpt.dateCreation | date:'dd/MM/yyyy'}}</td>
-              </tr>
-            </tbody>
-          </table>
-      </div>
-    </div>
-  </div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Code</th>
+      <th scope="col">Nom</th>
+      <th scope="col">Type Abonnement</th>
+      <th scope="col">Créé le</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let cpt of comptes">
+        <td>{{cpt.codeClient}}</td>
+        <td>{{cpt.nom}}</td>
+        <td>{{cpt.typeAbo}}</td>
+        <td>{{cpt.dateCreation | date:'dd/MM/yyyy'}}</td>
+        <td>
+          <button type="button" class="btn btn-default">
+            Modifier
+          </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
