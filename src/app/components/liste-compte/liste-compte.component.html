@@ -1,24 +1,59 @@
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th scope="col">Code</th>
-      <th scope="col">Nom</th>
-      <th scope="col">Type Abonnement</th>
-      <th scope="col">Créé le</th>
-      <th scope="col"></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let cpt of comptes">
-        <td>{{cpt.codeClient}}</td>
-        <td>{{cpt.nom}}</td>
-        <td>{{cpt.typeAbo}}</td>
-        <td>{{cpt.dateCreation | date:'dd/MM/yyyy'}}</td>
-        <td>
-          <button type="button" class="btn btn-default">
-            Modifier
-          </button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<mat-card class="listecompte-card">
+  <mat-card-header>
+    <mat-card-title>Comptes</mat-card-title>
+    <mat-card-subtitle>Liste des comptes client</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-actions>
+    <button mat-button>Nouveau</button>
+  </mat-card-actions>
+  <mat-card-content>
+
+    <mat-form-field>
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtre">
+    </mat-form-field>
+
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+          <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="codeClient">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Code client </th>
+          <td mat-cell *matCellDef="let element"> {{element.codeClient}} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="nom">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Nom </th>
+          <td mat-cell *matCellDef="let element"> {{element.nom}} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="typeAbo">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Type abonnement </th>
+          <td mat-cell *matCellDef="let element"> {{element.typeAbo}} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="dateCreation">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Date Création </th>
+          <td mat-cell *matCellDef="let element"> {{element.dateCreation | date:'dd MMM yyyy'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="btn">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let element">
+                <button mat-icon-button aria-label="Modifier" (click)="edit(element)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button aria-label="Modifier" (click)="delete(element)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+            </td>
+          </ng-container>
+        
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+  </mat-card-content>
+</mat-card>

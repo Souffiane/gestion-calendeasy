@@ -1,0 +1,8 @@
+<mat-toolbar color="primary">
+  <span>Calend'Easy Gestion</span>
+
+  <!-- This fills the remaining space of the current row -->
+  <span class="example-fill-remaining-space"></span>
+
+  <button mat-raised-button color="accent" (click)="deconnexion()" *ngIf="authService.isAuth">Déconnexion</button>
+</mat-toolbar>

@@ -11,8 +11,4 @@ export class AppComponent {
 
   constructor(private authService: AuthService, private router: Router) {}
 
-  deconnexion() {
-    this.authService.signOut();
-    this.router.navigate(['/login']);
-  }
 }

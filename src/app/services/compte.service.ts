@@ -8,10 +8,10 @@ import { Compte } from '../models/compte';
 export class CompteService {
 
   comptesSubject = new Subject<Compte[]>();
-  private comptes = [
-    new Compte(1, 'VGQ', 'Ville de Grand-Quevilly', '100', new Date(2015, 3, 19)),
-    new Compte(1, 'VLSL', 'Ville de Loison-sous-Lens', '100', new Date(2015, 5, 1)),
-    new Compte(1, 'VMRM', 'Ville de Maromme', '150', new Date(2015, 9, 1))
+  private comptes:Compte[] = [
+    {id:1, codeClient:'VGQ', nom:'Ville de Grand-Quevilly', typeAbo:'100', dateCreation: new Date(2015, 3, 19)},
+    {id:2, codeClient:'VLSL', nom:'Ville de Loison-sous-Lens', typeAbo:'100', dateCreation: new Date(2015, 5, 1)},
+    {id:3, codeClient:'VMRM', nom:'Ville de Maromme', typeAbo:'150', dateCreation: new Date(2015, 9, 1)}
   ];
 
   constructor() { }
