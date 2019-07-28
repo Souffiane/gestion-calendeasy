@@ -1,10 +1,14 @@
 export class Compte {
     constructor(
         id:number, 
-        codeClient:string,
+        code:string,
         nom:string,
-        typeAbo:string,
+        email:string,
+        forfait:string,
         dateCreation:Date,
+        dateDerniereConnexion:Date,
+        nbManifestation:number,
+        nbContac:number,
         ) {
     }
 }
