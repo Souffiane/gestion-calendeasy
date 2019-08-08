@@ -1,10 +1,10 @@
-<mat-card class="listecompte-card">
+<mat-card class="mat-card-content">
   <mat-card-header>
     <mat-card-title>Comptes</mat-card-title>
     <mat-card-subtitle>Liste des comptes client</mat-card-subtitle>
   </mat-card-header>
   <mat-card-actions>
-    <button mat-button>Nouveau</button>
+    <button mat-button routerLink="/detail">Nouveau</button>
   </mat-card-actions>
   <mat-card-content>
 
@@ -45,7 +45,7 @@
                 <button mat-icon-button aria-label="Modifier" (click)="edit(element)">
                   <mat-icon>edit</mat-icon>
                 </button>
-                <button mat-icon-button aria-label="Modifier" (click)="delete(element)">
+                <button mat-icon-button aria-label="Supprimer" (click)="delete(element)">
                   <mat-icon>delete</mat-icon>
                 </button>
             </td>

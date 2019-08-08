@@ -6,10 +6,16 @@ import { Injectable } from '@angular/core';
 export class AuthService {
 
   isAuth = true;
+  login: string;
+  password: string;
 
   constructor() { }
 
   signIn(login, pass) {
+
+    this.login = login;
+    this.password = pass;
+
     return new Promise(
       (resolve, reject) => {
         setTimeout(

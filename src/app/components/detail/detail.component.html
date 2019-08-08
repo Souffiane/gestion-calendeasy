@@ -1,1 +1,24 @@
-<p>detail works!</p>
+<mat-card class="mat-card-content">
+    <mat-card-header>
+      <mat-card-title>{{title}}</mat-card-title>
+      <mat-card-subtitle *ngIf="editCompte">{{compte.nom}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+  
+      <form [formGroup]="compteForm" (ngSubmit)="onSubmitForm()">
+        <div class="form-compte">
+            <mat-form-field>
+                <input matInput placeholder="Code client" id="codeClient" formControlName="codeClient">   
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Nom" id="nom" formControlName="nom">   
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Forfait" id="typeAbo" formControlName="typeAbo">   
+            </mat-form-field>
+            <button type="submit" mat-stroked-button color="primary" [disabled]="compteForm.invalid">Enregistrer</button>
+        </div>
+      </form>
+  
+    </mat-card-content>
+  </mat-card>

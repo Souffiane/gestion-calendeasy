@@ -1,8 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, LOCALE_ID } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { MaterialModule } from './material.module';
+import { HttpClientModule } from '@angular/common/http';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 
@@ -16,6 +17,7 @@ import { AuthService } from './services/auth.service';
 import { CompteService } from './services/compte.service';
 import { NotfoundComponent } from './components/notfound/notfound.component';
 import { AuthguardService } from './services/authguard.service';
+import { DialogComponent } from './components/dialog/dialog.component';
 
 registerLocaleData(localeFr, 'fr');
 
@@ -26,13 +28,17 @@ registerLocaleData(localeFr, 'fr');
     LoginComponent,
     ListeCompteComponent,
     DetailComponent,
-    NotfoundComponent
+    NotfoundComponent,
+    DialogComponent
   ],
+  entryComponents: [DialogComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    MaterialModule
+    ReactiveFormsModule,
+    MaterialModule,
+    HttpClientModule
   ],
   providers: [
     { provide: LOCALE_ID, useValue: "fr-FR" },

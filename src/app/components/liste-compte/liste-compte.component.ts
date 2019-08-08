@@ -5,6 +5,9 @@ import { Compte } from '../../models/compte';
 import { MatTableDataSource } from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { DialogComponent } from '../dialog/dialog.component';
 
 export interface PeriodicElement {
   name: string;
@@ -28,15 +31,30 @@ export class ListeCompteComponent implements OnInit {
   dataSource: any;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
-  constructor(private compteService: CompteService, private router: Router) { }
+  constructor(
+    private compteService: CompteService, 
+    private router: Router, 
+    private snackBar: MatSnackBar,
+    public dialog: MatDialog) { }
 
   ngOnInit() {
+    
+    this.compteService.getComptesResponse().subscribe(
+      (response) => {
+
+      },
+      (error) => {
+        this.snackBar.open("Erreur lors du chargement des comptes", "Fermer");
+      }
+    );
+    
     this.comptesSubscription = this.compteService.comptesSubject.subscribe(
       (comptes: Compte[]) => {
         this.dataSource = new MatTableDataSource(comptes);
         this.dataSource.sort = this.sort;
       }
     );
+
     this.compteService.emitComptesSubject();
   }
 
@@ -48,12 +66,22 @@ export class ListeCompteComponent implements OnInit {
     this.dataSource.filter = value.trim();
   }
 
-  edit(compte) {
+  edit(compte: Compte) {
     this.router.navigate(['/detail', compte.id]);
   }
 
-  delete(compte) {
-    
+  delete(compte: Compte): void {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: '350px',
+      data: compte
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result == 'oui')
+      {
+        this.compteService.deleteCompte(compte);
+      }
+    });
   }
 
 }

@@ -3,7 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  urlApi: "http://ns300295.ip-91-121-30.eu/calendeasy-gestion-api/"
 };
 
 /*
