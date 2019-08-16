@@ -1,7 +1,10 @@
 export interface Compte {
     id: number; 
-    codeClient: string;
+    code: string;
     nom: string;
-    typeAbo: string;
+    forfait: string;
+    nbManifestation: number;
+    nbContact: number;
+    dateDerniereConnexion: Date;
     dateCreation: Date;
 }

@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
 })
 export class AuthService {
 
-  isAuth = false;
+  isAuth = true;
   login: string;
   password: string;
 

@@ -13,12 +13,12 @@ export class CompteService {
   comptesSubject = new Subject<Compte[]>();
   errorSubject = new Subject<any>();
 
-  private comptes:Compte[];
-  // private comptes:Compte[] = [
-  //   {id:1, codeClient:'VGQ', nom:'Ville de Grand-Quevilly', typeAbo:'100', dateCreation: new Date(2015, 3, 19)},
-  //   {id:2, codeClient:'VLSL', nom:'Ville de Loison-sous-Lens', typeAbo:'100', dateCreation: new Date(2015, 5, 1)},
-  //   {id:3, codeClient:'VMRM', nom:'Ville de Maromme', typeAbo:'150', dateCreation: new Date(2015, 9, 1)}
-  // ];
+  //private comptes:Compte[];
+  private comptes:Compte[] = [
+    {id:1, code:'VGQ', nom:'Ville de Grand-Quevilly', forfait:'60', nbManifestation: 4510, nbContact: 42, dateCreation: new Date(2015, 3, 19), dateDerniereConnexion: new Date(2019, 8, 16, 15, 30)},
+    {id:2, code:'VLSL', nom:'Ville de Loison-sous-Lens', forfait:'100', nbManifestation: 1864, nbContact: 89, dateCreation: new Date(2015, 5, 2), dateDerniereConnexion: new Date(2019, 8, 16, 11, 41)},
+    {id:3, code:'VMRM', nom:'Ville de Maromme', forfait:'150', nbManifestation: 3541, nbContact: 122, dateCreation: new Date(2015, 8, 22), dateDerniereConnexion: new Date(2019, 8, 14, 8, 2)}
+  ];
 
   private httpOptions: HttpHeaders;
 
@@ -30,7 +30,7 @@ export class CompteService {
   }
 
   emitComptesSubject() {
-    this.comptesSubject.next(this.comptes.slice());
+    if(this.comptes) this.comptesSubject.next(this.comptes.slice());
   }
 
   emitErrorSubject(error: any) {

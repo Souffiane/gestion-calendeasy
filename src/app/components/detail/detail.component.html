@@ -3,20 +3,30 @@
       <mat-card-title>{{title}}</mat-card-title>
       <mat-card-subtitle *ngIf="editCompte">{{compte.nom}}</mat-card-subtitle>
     </mat-card-header>
+    <mat-card-actions align="end">
+      <button mat-raised-button color="primary" routerLink="/"><mat-icon>cancel</mat-icon> Annuler</button>
+    </mat-card-actions>
     <mat-card-content>
   
       <form [formGroup]="compteForm" (ngSubmit)="onSubmitForm()">
         <div class="form-compte">
             <mat-form-field>
-                <input matInput placeholder="Code client" id="codeClient" formControlName="codeClient">   
+                <input matInput placeholder="Code client" id="code" formControlName="code">   
             </mat-form-field>
             <mat-form-field>
                 <input matInput placeholder="Nom" id="nom" formControlName="nom">   
             </mat-form-field>
             <mat-form-field>
-                <input matInput placeholder="Forfait" id="typeAbo" formControlName="typeAbo">   
-            </mat-form-field>
-            <button type="submit" mat-stroked-button color="primary" [disabled]="compteForm.invalid">Enregistrer</button>
+                <mat-select placeholder="Forfait" id="forfait" formControlName="forfait">
+                  <mat-option value="30">30 contacts</mat-option>
+                  <mat-option value="60">60 contacts</mat-option>
+                  <mat-option value="100">100 contacts</mat-option>
+                  <mat-option value="150">150 contacts</mat-option>
+                  <mat-option value="200">200 contacts</mat-option>
+                  <mat-option value="300">300 contacts</mat-option>
+                </mat-select>
+              </mat-form-field>
+            <button type="submit" mat-raised-button color="primary" [disabled]="compteForm.invalid">Enregistrer</button>
         </div>
       </form>
   

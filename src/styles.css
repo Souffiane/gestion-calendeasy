@@ -1,11 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
-@import "~@angular/material/prebuilt-themes/pink-bluegrey.css";
+@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
 
 body {
     background-color: #303030;
     font-family: Roboto,"Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
-}
-
-.mat-card-content {
-    margin-top: 20px;
+    margin: 0;
 }

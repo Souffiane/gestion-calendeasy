@@ -9,15 +9,6 @@ import { MatSnackBar } from '@angular/material';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component';
 
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-  dateCreation: Date;
-}
-
-
 @Component({
   selector: 'app-liste-compte',
   templateUrl: './liste-compte.component.html',
@@ -28,7 +19,7 @@ export class ListeCompteComponent implements OnInit {
   comptesSubscription: Subscription;
   errorComptesSubscription: Subscription;
 
-  displayedColumns: string[] = ['id','codeClient','nom','typeAbo','dateCreation','btn'];
+  displayedColumns: string[] = ['id','code','nom','forfait','nbContact','nbManifestation','dateDerniereConnexion','dateCreation','btn'];
   dataSource: any;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 

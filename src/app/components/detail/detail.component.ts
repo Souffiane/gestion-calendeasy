@@ -40,14 +40,14 @@ export class DetailComponent implements OnInit {
 
   initForm() {
     
-    const code = this.compte ? this.compte.codeClient : '';
+    const code = this.compte ? this.compte.code : '';
     const nom = this.compte ? this.compte.nom : '';
-    const typeAbo = this.compte ? this.compte.typeAbo : '';
+    const typeAbo = this.compte ? this.compte.forfait : '';
     
     this.compteForm = this.formBuilder.group({
-      codeClient: [code, Validators.required],
+      code: [code, Validators.required],
       nom: [nom, Validators.required],
-      typeAbo: [typeAbo, Validators.required]
+      forfait: [typeAbo, Validators.required]
     });
   }
 
@@ -55,10 +55,13 @@ export class DetailComponent implements OnInit {
     const values = this.compteForm.value;
     this.compte = {
       id: 0,
-      codeClient: values['codeClient'],
+      code: values['code'],
       nom: values['nom'],
-      typeAbo: values['typeAbo'],
-      dateCreation: new Date()
+      forfait: values['forfait'],
+      nbContact: 0,
+      nbManifestation: 0,
+      dateCreation: new Date(),
+      dateDerniereConnexion: null
     };
 
     this.compteService.addCompte(this.compte);

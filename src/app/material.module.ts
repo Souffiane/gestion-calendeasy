@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { 
-  MatToolbarModule, MatSidenavModule, MatIconModule, MatListModule, MatButtonModule, MatCardModule, MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatDialogModule
+  MatToolbarModule, MatSidenavModule, MatIconModule, MatListModule, MatButtonModule, MatCardModule, MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatDialogModule, MatSelectModule
 } from '@angular/material';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { LayoutModule } from '@angular/cdk/layout';
@@ -21,7 +21,8 @@ import { LayoutModule } from '@angular/cdk/layout';
     MatTableModule,
     MatSortModule,
     MatSnackBarModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSelectModule
   ],
   exports: [
     BrowserAnimationsModule,
@@ -36,7 +37,8 @@ import { LayoutModule } from '@angular/cdk/layout';
     MatTableModule,
     MatSortModule,
     MatSnackBarModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSelectModule
   ]
 })
 export class MaterialModule { }
