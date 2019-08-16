@@ -22,9 +22,13 @@ export class LoginComponent implements OnInit {
     const login = form.value['login'];
     const pass = form.value['pass'];
 
-    this.authService.signIn(login, pass).then(
+    this.authService.signIn(login, pass).subscribe(
       () => {
         this.router.navigate(["/comptes"]);
+        this.authService.isAuth = true;
+      },
+      (error) => {
+        console.log(error);
       }
     );
   }

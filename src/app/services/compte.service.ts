@@ -11,39 +11,50 @@ import { environment } from 'src/environments/environment';
 export class CompteService {
 
   comptesSubject = new Subject<Compte[]>();
-  private comptes:Compte[] = [
-    {id:1, codeClient:'VGQ', nom:'Ville de Grand-Quevilly', typeAbo:'100', dateCreation: new Date(2015, 3, 19)},
-    {id:2, codeClient:'VLSL', nom:'Ville de Loison-sous-Lens', typeAbo:'100', dateCreation: new Date(2015, 5, 1)},
-    {id:3, codeClient:'VMRM', nom:'Ville de Maromme', typeAbo:'150', dateCreation: new Date(2015, 9, 1)}
-  ];
+  errorSubject = new Subject<any>();
+
+  private comptes:Compte[];
+  // private comptes:Compte[] = [
+  //   {id:1, codeClient:'VGQ', nom:'Ville de Grand-Quevilly', typeAbo:'100', dateCreation: new Date(2015, 3, 19)},
+  //   {id:2, codeClient:'VLSL', nom:'Ville de Loison-sous-Lens', typeAbo:'100', dateCreation: new Date(2015, 5, 1)},
+  //   {id:3, codeClient:'VMRM', nom:'Ville de Maromme', typeAbo:'150', dateCreation: new Date(2015, 9, 1)}
+  // ];
 
   private httpOptions: HttpHeaders;
 
   constructor(private authService: AuthService, private http: HttpClient) { 
-    // this.httpOptions = new HttpHeaders({
-    //     'Content-Type':  'application/json',
-    //     'Authorization': 'Basic ' + btoa(this.authService.login + ':' + this.authService.password)
-    // });
-
-    this.httpOptions = new HttpHeaders();
-    this.httpOptions = this.httpOptions.append("Authorization", "Basic " + btoa("admin:admin/76$"));
-    this.httpOptions = this.httpOptions.append("Content-Type", "application/x-www-form-urlencoded");
-
+    this.httpOptions = new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Authorization': 'Basic ' + btoa(this.authService.login + ':' + this.authService.password)
+    });
   }
 
   emitComptesSubject() {
     this.comptesSubject.next(this.comptes.slice());
   }
 
-  getComptesResponse(): Observable<HttpResponse<Compte[]>> {
+  emitErrorSubject(error: any) {
+    this.errorSubject.next(error);
+  }
+
+  getComptes() {
     
-    return this.http.get<Compte[]>(
+    this.http.get<Compte[]>(
       environment.urlApi + "compte/read.php",
       { 
         observe: 'response',
         headers: this.httpOptions
       }
-    )
+    ).subscribe(
+      (response) => {
+        console.log(response);
+
+        this.emitComptesSubject();
+      },
+      (error) => {
+        this.emitErrorSubject(error);
+      }
+    );
   }
 
   getCompteById(id: number): Compte {
@@ -52,7 +63,8 @@ export class CompteService {
 
   addCompte(compte: Compte) {
     this.comptes.push(compte);
-    // emit?
+
+    this.emitComptesSubject();
   }
 
   deleteCompte(compte: Compte) {

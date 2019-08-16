@@ -26,6 +26,7 @@ export interface PeriodicElement {
 export class ListeCompteComponent implements OnInit {
 
   comptesSubscription: Subscription;
+  errorComptesSubscription: Subscription;
 
   displayedColumns: string[] = ['id','codeClient','nom','typeAbo','dateCreation','btn'];
   dataSource: any;
@@ -38,20 +39,18 @@ export class ListeCompteComponent implements OnInit {
     public dialog: MatDialog) { }
 
   ngOnInit() {
-    
-    this.compteService.getComptesResponse().subscribe(
-      (response) => {
 
-      },
-      (error) => {
-        this.snackBar.open("Erreur lors du chargement des comptes", "Fermer");
-      }
-    );
-    
     this.comptesSubscription = this.compteService.comptesSubject.subscribe(
       (comptes: Compte[]) => {
         this.dataSource = new MatTableDataSource(comptes);
         this.dataSource.sort = this.sort;
+      }
+    );
+
+    this.errorComptesSubscription = this.compteService.errorSubject.subscribe(
+      (error) => {
+        console.log(error);
+        this.snackBar.open("Erreur lors du chargement des comptes", "Fermer");
       }
     );
 
@@ -60,6 +59,7 @@ export class ListeCompteComponent implements OnInit {
 
   ngOnDestroy() {
     this.comptesSubscription.unsubscribe();
+    this.errorComptesSubscription.unsubscribe();
   }
 
   applyFilter(value) {
