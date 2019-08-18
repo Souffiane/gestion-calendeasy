@@ -18,6 +18,9 @@ export class LoginComponent implements OnInit {
     ) { }
 
   ngOnInit() {
+    if(sessionStorage.credentials) {
+      this.router.navigate(['comptes']);
+    }
   }
 
   onSubmit(form: NgForm) {
@@ -27,6 +30,9 @@ export class LoginComponent implements OnInit {
     this.authService.signIn(login, pass).subscribe(
       () => {
         this.router.navigate(["/comptes"]);
+        
+        const credentials = { login: login, password: pass };
+        sessionStorage.setItem('credentials', JSON.stringify(credentials));
         this.authService.isAuth = true;
       },
       (error) => {

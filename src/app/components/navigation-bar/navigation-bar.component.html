@@ -4,5 +4,5 @@
   <!-- Permet de placer les boutons qui suivent à droite -->
   <span class="fill-remaining-space"></span>
 
-  <button mat-raised-button color="warn" (click)="deconnexion()" *ngIf="authService.isAuth"><mat-icon>exit_to_app</mat-icon> Déconnexion</button>
+  <button mat-raised-button color="warn" (click)="deconnexion()" *ngIf="isAuth()"><mat-icon>exit_to_app</mat-icon> Déconnexion</button>
 </mat-toolbar>

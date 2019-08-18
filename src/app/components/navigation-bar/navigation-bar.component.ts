@@ -16,4 +16,11 @@ export class NavigationBarComponent {
     this.router.navigate(['/login']);
   }
 
+  isAuth(): boolean {
+    if(sessionStorage.credentials)
+      return true;
+    
+    return false;
+  }
+
 }

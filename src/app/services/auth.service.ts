@@ -7,29 +7,26 @@ import { environment } from 'src/environments/environment';
 })
 export class AuthService {
 
-  isAuth = true;
+  isAuth: boolean = false;
   login: string;
   password: string;
 
-  private httpOptions: HttpHeaders;
-
-  constructor(private httpClient: HttpClient) {
-    this.httpOptions = new HttpHeaders({
-      'Content-Type':  'application/json',
-      'Authorization': 'Basic ' + btoa(this.login + ':' + this.password)
-  });
-  }
+  constructor(private httpClient: HttpClient) { }
 
   signIn(login, pass) {
 
     this.login = login;
     this.password = pass;
 
+    const headers: HttpHeaders = new HttpHeaders({
+      'Content-Type':  'application/json',
+      'Authorization': 'Basic ' + btoa(this.login + ':' + this.password)
+    });
+
     return this.httpClient.post(
-      environment.urlApi + "auth/login.php",
+      environment.urlApi + "auth/login.php", null,
       { 
-        observe: 'response',
-        headers: this.httpOptions
+        headers: headers
       }
     );
   }
@@ -38,5 +35,6 @@ export class AuthService {
     this.login = "";
     this.password = "";
     this.isAuth = false;
+    sessionStorage.removeItem('credentials');
   }
 }

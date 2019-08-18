@@ -15,6 +15,7 @@ export class DetailComponent implements OnInit {
   editCompte: boolean = false;
   title: string = "Nouveau compte";
 
+  idCompteEdit: number = 0;
   compte: Compte;
   compteForm: FormGroup;
   
@@ -25,9 +26,9 @@ export class DetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    const idCompte = +this.router.snapshot.params["id"];
-    if(idCompte > 0) {
-      this.compte = this.compteService.getCompteById(idCompte);
+    this.idCompteEdit = +this.router.snapshot.params["id"];
+    if(this.idCompteEdit > 0) {
+      this.compte = this.compteService.getCompteById(this.idCompteEdit);
       this.editCompte = true;
       this.title = "Détail";
     }
@@ -43,27 +44,33 @@ export class DetailComponent implements OnInit {
     const code = this.compte ? this.compte.code : '';
     const nom = this.compte ? this.compte.nom : '';
     const typeAbo = this.compte ? this.compte.forfait : '';
+    const email = this.compte ? this.compte.email : '';
     
     this.compteForm = this.formBuilder.group({
       code: [code, Validators.required],
       nom: [nom, Validators.required],
-      forfait: [typeAbo, Validators.required]
+      forfait: [typeAbo, Validators.required],
+      email: [email, Validators.email]
     });
   }
 
   onSubmitForm() {
     const values = this.compteForm.value;
     this.compte = {
-      id: 0,
+      id: this.idCompteEdit,
       code: values['code'],
       nom: values['nom'],
       forfait: values['forfait'],
+      email:  values['email'],
       nbContact: 0,
       nbManifestation: 0,
       dateCreation: new Date(),
       dateDerniereConnexion: null
     };
 
-    this.compteService.addCompte(this.compte);
+    if(this.idCompteEdit == 0)
+      this.compteService.addCompte(this.compte);
+    else
+      this.compteService.editCompte(this.compte);
   }
 }

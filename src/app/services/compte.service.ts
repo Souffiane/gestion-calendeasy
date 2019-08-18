@@ -12,22 +12,9 @@ export class CompteService {
 
   comptesSubject = new Subject<Compte[]>();
   errorSubject = new Subject<any>();
+  private comptes:Compte[] = [];
 
-  //private comptes:Compte[];
-  private comptes:Compte[] = [
-    {id:1, code:'VGQ', nom:'Ville de Grand-Quevilly', forfait:'60', nbManifestation: 4510, nbContact: 42, dateCreation: new Date(2015, 3, 19), dateDerniereConnexion: new Date(2019, 8, 16, 15, 30)},
-    {id:2, code:'VLSL', nom:'Ville de Loison-sous-Lens', forfait:'100', nbManifestation: 1864, nbContact: 89, dateCreation: new Date(2015, 5, 2), dateDerniereConnexion: new Date(2019, 8, 16, 11, 41)},
-    {id:3, code:'VMRM', nom:'Ville de Maromme', forfait:'150', nbManifestation: 3541, nbContact: 122, dateCreation: new Date(2015, 8, 22), dateDerniereConnexion: new Date(2019, 8, 14, 8, 2)}
-  ];
-
-  private httpOptions: HttpHeaders;
-
-  constructor(private authService: AuthService, private http: HttpClient) { 
-    this.httpOptions = new HttpHeaders({
-        'Content-Type':  'application/json',
-        'Authorization': 'Basic ' + btoa(this.authService.login + ':' + this.authService.password)
-    });
-  }
+  constructor(private authService: AuthService, private http: HttpClient) { }
 
   emitComptesSubject() {
     if(this.comptes) this.comptesSubject.next(this.comptes.slice());
@@ -37,18 +24,22 @@ export class CompteService {
     this.errorSubject.next(error);
   }
 
+  getHttpOptions() {
+    const credentials = JSON.parse(sessionStorage.credentials);
+    return new HttpHeaders({
+      'Content-Type':  'application/json',
+      'Authorization': 'Basic ' + btoa(credentials.login + ':' + credentials.password)
+    });
+  }
+
   getComptes() {
     
     this.http.get<Compte[]>(
       environment.urlApi + "compte/read.php",
-      { 
-        observe: 'response',
-        headers: this.httpOptions
-      }
+      { headers: this.getHttpOptions() }
     ).subscribe(
       (response) => {
-        console.log(response);
-
+        this.comptes = response;
         this.emitComptesSubject();
       },
       (error) => {
@@ -62,6 +53,20 @@ export class CompteService {
   }
 
   addCompte(compte: Compte) {
+    this.comptes.push(compte);
+
+    this.http.post(
+      environment.urlApi + "compte/read.php",
+      {
+        
+      },
+      { 
+        headers: this.getHttpOptions()
+      }
+    );
+  }
+
+  editCompte(compte: Compte) {
     this.comptes.push(compte);
 
     this.emitComptesSubject();

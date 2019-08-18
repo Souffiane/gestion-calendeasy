@@ -30,7 +30,7 @@ export class ListeCompteComponent implements OnInit {
     public dialog: MatDialog) { }
 
   ngOnInit() {
-
+    
     this.comptesSubscription = this.compteService.comptesSubject.subscribe(
       (comptes: Compte[]) => {
         this.dataSource = new MatTableDataSource(comptes);
@@ -45,7 +45,7 @@ export class ListeCompteComponent implements OnInit {
       }
     );
 
-    this.compteService.emitComptesSubject();
+    this.compteService.getComptes();
   }
 
   ngOnDestroy() {

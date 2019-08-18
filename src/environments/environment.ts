@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   urlApi: "http://ns300295.ip-91-121-30.eu/calendeasy-gestion-api/"
+  // urlApi: "http://localhost/calendeasy-gestion-api/"
 };
 
 /*
