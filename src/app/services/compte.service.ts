@@ -53,13 +53,8 @@ export class CompteService {
   }
 
   addCompte(compte: Compte) {
-    this.comptes.push(compte);
-
-    this.http.post(
-      environment.urlApi + "compte/read.php",
-      {
-        
-      },
+    return this.http.post(
+      environment.urlApi + "compte/create.php", compte,
       { 
         headers: this.getHttpOptions()
       }
@@ -67,15 +62,29 @@ export class CompteService {
   }
 
   editCompte(compte: Compte) {
-    this.comptes.push(compte);
-
-    this.emitComptesSubject();
+    return this.http.post(
+      environment.urlApi + "compte/update.php", compte,
+      { 
+        headers: this.getHttpOptions()
+      }
+    );
   }
 
   deleteCompte(compte: Compte) {
-    let index = this.comptes.indexOf(compte);
-    this.comptes.splice(index, 1);
+    return this.http.post(
+      environment.urlApi + "compte/delete.php", compte,
+      { 
+        headers: this.getHttpOptions()
+      }
+    );
+  }
 
-    this.emitComptesSubject();
+  updatePassword(compte: Compte) {
+    return this.http.post(
+      environment.urlApi + "compte/updatePassword.php", compte,
+      { 
+        headers: this.getHttpOptions()
+      }
+    );
   }
 }

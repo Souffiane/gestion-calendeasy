@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component';
+import { UtilsService } from 'src/app/services/utils.service';
 
 @Component({
   selector: 'app-liste-compte',
@@ -23,7 +24,10 @@ export class ListeCompteComponent implements OnInit {
   dataSource: any;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
+  isLoading: boolean = false;
+
   constructor(
+    private utilsService: UtilsService,
     private compteService: CompteService, 
     private router: Router, 
     private snackBar: MatSnackBar,
@@ -31,10 +35,16 @@ export class ListeCompteComponent implements OnInit {
 
   ngOnInit() {
     
+    this.isLoading = true;
+
     this.comptesSubscription = this.compteService.comptesSubject.subscribe(
       (comptes: Compte[]) => {
         this.dataSource = new MatTableDataSource(comptes);
         this.dataSource.sort = this.sort;
+        this.isLoading = false;
+      },
+      (error) => {
+        this.isLoading = false;
       }
     );
 
@@ -63,16 +73,67 @@ export class ListeCompteComponent implements OnInit {
 
   delete(compte: Compte): void {
     const dialogRef = this.dialog.open(DialogComponent, {
-      width: '350px',
-      data: compte
+      width: '400px',
+      data: {
+        compte: compte,
+        title: compte.nom,
+        question: "Voulez-vous vraiment supprimer ce compte ?",
+        validationText: "Oui",
+        cancelText: "Non"
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if(result == 'oui')
       {
-        this.compteService.deleteCompte(compte);
+        this.isLoading = true;
+        this.compteService.deleteCompte(compte).subscribe(
+          () => {
+            this.isLoading = false;
+            this.snackBar.open("Compte supprimé", "Fermer");
+          },
+          (error) => {
+            this.isLoading = false;
+            this.snackBar.open("Erreur lors de la suppression du compte", "Fermer");
+          }
+        );
       }
     });
+  }
+
+  newPass(compte:Compte) {
+    compte.password = this.utilsService.generatePassword();
+
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: '400px',
+      data: {
+        compte: compte,
+        title: compte.nom,
+        question: "Voulez-vous vraiment affecter ce mot de passe " + compte.password + " ?",
+        validationText: "Oui",
+        cancelText: "Non"
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result == 'oui')
+      {
+        this.isLoading = true;
+        this.compteService.updatePassword(compte).subscribe(
+          () => {
+            this.isLoading = false;
+            this.snackBar.open("Compte supprimé", "Fermer");
+          },
+          (error) => {
+            this.isLoading = false;
+            this.snackBar.open("Erreur lors de la suppression du compte", "Fermer");
+          }
+        );
+      }
+    });
+
+    
+    
   }
 
 }

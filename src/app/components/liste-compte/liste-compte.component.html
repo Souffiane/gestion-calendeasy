@@ -12,6 +12,12 @@
       <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtre">
     </mat-form-field>
 
+    <mat-progress-bar
+        *ngIf="isLoading"
+        color="primary"
+        mode="indeterminate">
+    </mat-progress-bar>
+
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
         <ng-container matColumnDef="id">
@@ -57,12 +63,15 @@
         <ng-container matColumnDef="btn">
             <th mat-header-cell *matHeaderCellDef></th>
             <td mat-cell *matCellDef="let element">
-                <button mat-icon-button aria-label="Modifier" (click)="edit(element)">
-                  <mat-icon>edit</mat-icon>
-                </button>
-                <button mat-icon-button aria-label="Supprimer" (click)="delete(element)">
-                  <mat-icon>delete</mat-icon>
-                </button>
+              <button mat-icon-button aria-label="Modifier" matTooltip="Modifier le compte" (click)="edit(element)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button aria-label="Nouveau mot de passe" matTooltip="Nouveau mot de passe" (click)="newPass(element)">
+                <mat-icon>security</mat-icon>
+              </button>
+              <button mat-icon-button aria-label="Supprimer" matTooltip="Supprimer le compte" (click)="delete(element)">
+                <mat-icon>delete</mat-icon>
+              </button>
             </td>
           </ng-container>
         

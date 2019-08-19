@@ -18,6 +18,7 @@ import { CompteService } from './services/compte.service';
 import { NotfoundComponent } from './components/notfound/notfound.component';
 import { AuthguardService } from './services/authguard.service';
 import { DialogComponent } from './components/dialog/dialog.component';
+import { UtilsService } from './services/utils.service';
 
 registerLocaleData(localeFr, 'fr');
 
@@ -44,7 +45,8 @@ registerLocaleData(localeFr, 'fr');
     { provide: LOCALE_ID, useValue: "fr-FR" },
     AuthService,
     AuthguardService,
-    CompteService
+    CompteService,
+    UtilsService
   ],
   bootstrap: [AppComponent]
 })

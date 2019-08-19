@@ -1,7 +1,20 @@
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { 
-  MatToolbarModule, MatSidenavModule, MatIconModule, MatListModule, MatButtonModule, MatCardModule, MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatDialogModule, MatSelectModule
+  MatToolbarModule,
+  MatSidenavModule,
+  MatIconModule, 
+  MatListModule, 
+  MatButtonModule, 
+  MatCardModule, 
+  MatFormFieldModule, 
+  MatInputModule, 
+  MatTableModule, 
+  MatSortModule, 
+  MatDialogModule, 
+  MatSelectModule, 
+  MatProgressBarModule,
+  MatTooltipModule
 } from '@angular/material';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { LayoutModule } from '@angular/cdk/layout';
@@ -22,7 +35,9 @@ import { LayoutModule } from '@angular/cdk/layout';
     MatSortModule,
     MatSnackBarModule,
     MatDialogModule,
-    MatSelectModule
+    MatSelectModule,
+    MatProgressBarModule,
+    MatTooltipModule
   ],
   exports: [
     BrowserAnimationsModule,
@@ -38,7 +53,9 @@ import { LayoutModule } from '@angular/cdk/layout';
     MatSortModule,
     MatSnackBarModule,
     MatDialogModule,
-    MatSelectModule
+    MatSelectModule,
+    MatProgressBarModule,
+    MatTooltipModule
   ]
 })
 export class MaterialModule { }

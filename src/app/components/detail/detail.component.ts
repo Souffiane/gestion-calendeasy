@@ -3,6 +3,8 @@ import { Compte } from 'src/app/models/compte';
 import { CompteService } from 'src/app/services/compte.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material';
+import { UtilsService } from 'src/app/services/utils.service';
 
 @Component({
   selector: 'app-detail',
@@ -20,9 +22,12 @@ export class DetailComponent implements OnInit {
   compteForm: FormGroup;
   
   constructor(
+    private utilsService: UtilsService,
     private compteService: CompteService, 
+    private route: Router,
     private router: ActivatedRoute,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit() {
@@ -41,16 +46,20 @@ export class DetailComponent implements OnInit {
 
   initForm() {
     
+    console.log(this.compte);
+
     const code = this.compte ? this.compte.code : '';
     const nom = this.compte ? this.compte.nom : '';
     const typeAbo = this.compte ? this.compte.forfait : '';
     const email = this.compte ? this.compte.email : '';
-    
+    const pass = this.utilsService.generatePassword();
+
     this.compteForm = this.formBuilder.group({
       code: [code, Validators.required],
       nom: [nom, Validators.required],
       forfait: [typeAbo, Validators.required],
-      email: [email, Validators.email]
+      email: [email, [Validators.required, Validators.email]],
+      password: [pass, Validators.required]
     });
   }
 
@@ -62,15 +71,39 @@ export class DetailComponent implements OnInit {
       nom: values['nom'],
       forfait: values['forfait'],
       email:  values['email'],
+      password: values['password'],
       nbContact: 0,
       nbManifestation: 0,
       dateCreation: new Date(),
       dateDerniereConnexion: null
     };
 
-    if(this.idCompteEdit == 0)
-      this.compteService.addCompte(this.compte);
-    else
-      this.compteService.editCompte(this.compte);
+    if(!this.idCompteEdit || this.idCompteEdit == 0)
+    {  
+      this.compteService.addCompte(this.compte).subscribe(
+        () => {
+          this.snackBar.open("Compte créé", "Fermer");
+          this.route.navigate(['comptes']);
+        },
+        (error) => {
+          this.snackBar.open("Erreur lors de la création du compte", "Fermer");
+        }
+      );
+    }
+    else {
+      this.compteService.editCompte(this.compte).subscribe(
+        () => {
+          this.snackBar.open("Compte modifié", "Fermer");
+          this.route.navigate(['comptes']);
+        },
+        (error) => {
+          this.snackBar.open("Erreur lors de la modification du compte", "Fermer");
+        }
+      );;
+    }
+  }
+  
+  reloadPass() {
+    this.compteForm.controls['password'].setValue(this.utilsService.generatePassword());
   }
 }
