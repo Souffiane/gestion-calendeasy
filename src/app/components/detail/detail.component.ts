@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Compte } from 'src/app/models/compte';
 import { CompteService } from 'src/app/services/compte.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 import { UtilsService } from 'src/app/services/utils.service';
 
@@ -34,6 +34,10 @@ export class DetailComponent implements OnInit {
     this.idCompteEdit = +this.router.snapshot.params["id"];
     if(this.idCompteEdit > 0) {
       this.compte = this.compteService.getCompteById(this.idCompteEdit);
+      if(!this.compte)
+      {
+        this.route.navigate(['comptes']);
+      }
       this.editCompte = true;
       this.title = "Détail";
     }
@@ -45,9 +49,6 @@ export class DetailComponent implements OnInit {
   }
 
   initForm() {
-    
-    console.log(this.compte);
-
     const code = this.compte ? this.compte.code : '';
     const nom = this.compte ? this.compte.nom : '';
     const typeAbo = this.compte ? this.compte.forfait : '';
@@ -55,7 +56,7 @@ export class DetailComponent implements OnInit {
     const pass = this.utilsService.generatePassword();
 
     this.compteForm = this.formBuilder.group({
-      code: [code, Validators.required],
+      code: new FormControl({value: code, disabled: this.editCompte}, Validators.required),
       nom: [nom, Validators.required],
       forfait: [typeAbo, Validators.required],
       email: [email, [Validators.required, Validators.email]],

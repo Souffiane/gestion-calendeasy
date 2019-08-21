@@ -33,7 +33,6 @@ export class CompteService {
   }
 
   getComptes() {
-    
     this.http.get<Compte[]>(
       environment.urlApi + "compte/read.php",
       { headers: this.getHttpOptions() }

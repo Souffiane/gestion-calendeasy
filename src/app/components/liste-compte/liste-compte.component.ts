@@ -5,7 +5,7 @@ import { Compte } from '../../models/compte';
 import { MatTableDataSource } from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatPaginator } from '@angular/material';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component';
 import { UtilsService } from 'src/app/services/utils.service';
@@ -23,6 +23,7 @@ export class ListeCompteComponent implements OnInit {
   displayedColumns: string[] = ['id','code','nom','forfait','nbContact','nbManifestation','dateDerniereConnexion','dateCreation','btn'];
   dataSource: any;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   isLoading: boolean = false;
 
@@ -31,16 +32,19 @@ export class ListeCompteComponent implements OnInit {
     private compteService: CompteService, 
     private router: Router, 
     private snackBar: MatSnackBar,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog) {
+      
+
+    }
 
   ngOnInit() {
-    
-    this.isLoading = true;
 
+    this.SetlabelPaginator();
     this.comptesSubscription = this.compteService.comptesSubject.subscribe(
       (comptes: Compte[]) => {
         this.dataSource = new MatTableDataSource(comptes);
         this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
         this.isLoading = false;
       },
       (error) => {
@@ -55,6 +59,19 @@ export class ListeCompteComponent implements OnInit {
       }
     );
 
+    this.refreshList();
+  }
+
+  SetlabelPaginator() {
+    this.paginator._intl.itemsPerPageLabel = "Eléments par page";
+    this.paginator._intl.firstPageLabel = "Première page";
+    this.paginator._intl.lastPageLabel = "Dernière page";
+    this.paginator._intl.nextPageLabel = "Page suivante";
+    this.paginator._intl.previousPageLabel = "Page précédente";
+  }
+
+  refreshList() {
+    this.isLoading = true;
     this.compteService.getComptes();
   }
 
@@ -75,7 +92,6 @@ export class ListeCompteComponent implements OnInit {
     const dialogRef = this.dialog.open(DialogComponent, {
       width: '400px',
       data: {
-        compte: compte,
         title: compte.nom,
         question: "Voulez-vous vraiment supprimer ce compte ?",
         validationText: "Oui",
@@ -91,6 +107,7 @@ export class ListeCompteComponent implements OnInit {
           () => {
             this.isLoading = false;
             this.snackBar.open("Compte supprimé", "Fermer");
+            this.refreshList();
           },
           (error) => {
             this.isLoading = false;
@@ -107,9 +124,8 @@ export class ListeCompteComponent implements OnInit {
     const dialogRef = this.dialog.open(DialogComponent, {
       width: '400px',
       data: {
-        compte: compte,
         title: compte.nom,
-        question: "Voulez-vous vraiment affecter ce mot de passe " + compte.password + " ?",
+        question: "Ce mot de passe " + compte.password + " sera attribué. Voulez-vous continuer ?",
         validationText: "Oui",
         cancelText: "Non"
       }
@@ -122,7 +138,7 @@ export class ListeCompteComponent implements OnInit {
         this.compteService.updatePassword(compte).subscribe(
           () => {
             this.isLoading = false;
-            this.snackBar.open("Compte supprimé", "Fermer");
+            this.snackBar.open("Mot de passe modifié", "Fermer");
           },
           (error) => {
             this.isLoading = false;

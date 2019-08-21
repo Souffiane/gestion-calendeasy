@@ -14,7 +14,8 @@ import {
   MatDialogModule, 
   MatSelectModule, 
   MatProgressBarModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatPaginatorModule
 } from '@angular/material';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { LayoutModule } from '@angular/cdk/layout';
@@ -37,7 +38,8 @@ import { LayoutModule } from '@angular/cdk/layout';
     MatDialogModule,
     MatSelectModule,
     MatProgressBarModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatPaginatorModule
   ],
   exports: [
     BrowserAnimationsModule,
@@ -55,7 +57,8 @@ import { LayoutModule } from '@angular/cdk/layout';
     MatDialogModule,
     MatSelectModule,
     MatProgressBarModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatPaginatorModule
   ]
 })
 export class MaterialModule { }

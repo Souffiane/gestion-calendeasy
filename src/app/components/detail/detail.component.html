@@ -1,7 +1,7 @@
 <mat-card class="mat-card-content">
     <mat-card-header>
       <mat-card-title>{{title}}</mat-card-title>
-      <mat-card-subtitle *ngIf="editCompte">{{compte.nom}}</mat-card-subtitle>
+      <mat-card-subtitle *ngIf="editCompte">{{compte?.nom}}</mat-card-subtitle>
     </mat-card-header>
     <mat-card-actions align="end">
       <button mat-raised-button color="primary" routerLink="/"><mat-icon>cancel</mat-icon> Annuler</button>
@@ -11,7 +11,7 @@
       <form [formGroup]="compteForm" (ngSubmit)="onSubmitForm()">
         <div class="form-compte">
             <mat-form-field>
-                <input matInput placeholder="Code client" id="code" formControlName="code">   
+                <input matInput placeholder="Code client" id="code" formControlName="code">
             </mat-form-field>
             <mat-form-field>
                 <input matInput placeholder="Nom" id="nom" formControlName="nom">   
