@@ -106,5 +106,6 @@ export class DetailComponent implements OnInit {
   
   reloadPass() {
     this.compteForm.controls['password'].setValue(this.utilsService.generatePassword());
+    return false;
   }
 }

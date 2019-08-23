@@ -54,7 +54,7 @@ export class ListeCompteComponent implements OnInit {
 
     this.errorComptesSubscription = this.compteService.errorSubject.subscribe(
       (error) => {
-        console.log(error);
+        this.isLoading = false;
         this.snackBar.open("Erreur lors du chargement des comptes", "Fermer");
       }
     );
