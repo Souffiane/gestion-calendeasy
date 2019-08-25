@@ -37,4 +37,9 @@ export class AuthService {
     this.isAuth = false;
     sessionStorage.removeItem('credentials');
   }
+
+  isLoggedIn() {
+    if(sessionStorage.getItem("credentials")) return true;
+    else return false;
+  }
 }
