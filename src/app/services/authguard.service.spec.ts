@@ -27,13 +27,13 @@ describe('AuthguardService', () => {
     expect(service).toBeTruthy();
   }));
 
-  it('should return true for a logged in user', inject([AuthguardService], (service: AuthguardService) => {
+  it('should return true for a logged in user for canActivate()', inject([AuthguardService], (service: AuthguardService) => {
     spyAuthService.isLoggedIn.and.returnValue(true);
     const ret = service.canActivate(null, null);
     expect(ret).toBeTruthy();
   }));
 
-  it('should navigate to login for a logged out user', inject([AuthguardService], (service: AuthguardService) => {
+  it('should navigate to login for a logged out user for canActivate()', inject([AuthguardService], (service: AuthguardService) => {
     spyAuthService.isLoggedIn.and.returnValue(false);
     const ret = service.canActivate(null, null);
     expect(ret).toBeFalsy();

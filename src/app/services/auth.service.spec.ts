@@ -43,14 +43,14 @@ describe('AuthService', () => {
     mockHttp.verify();
   }));
 
-  it('should return true for logged in user', inject([AuthService], (service: AuthService) => {
+  it('should return true for isLoggedIn()', inject([AuthService], (service: AuthService) => {
     spyOn(window.sessionStorage, 'getItem').and.callFake(function() {
 			return "ok";
 		});
     expect(service.isLoggedIn()).toBeTruthy();
   }));
 
-  it('should return false for logged out user', inject([AuthService], (service: AuthService) => {
+  it('should return false for isLoggedIn()', inject([AuthService], (service: AuthService) => {
     
     spyOn(window.sessionStorage, 'getItem').and.callFake(function() {
 			return undefined;
