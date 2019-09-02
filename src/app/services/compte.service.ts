@@ -26,7 +26,6 @@ export class CompteService {
 
   getHttpOptions() {
     const credentials = JSON.parse(sessionStorage.getItem("credentials"));
-
     return new HttpHeaders({
       'Content-Type':  'application/json',
       'Authorization': 'Basic ' + btoa(credentials.login + ':' + credentials.password)

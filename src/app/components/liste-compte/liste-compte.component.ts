@@ -33,8 +33,6 @@ export class ListeCompteComponent implements OnInit {
     private router: Router, 
     private snackBar: MatSnackBar,
     public dialog: MatDialog) {
-      
-
     }
 
   ngOnInit() {
